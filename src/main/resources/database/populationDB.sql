@@ -1,0 +1,2 @@
+INSERT INTO grade
+VALUES (123, 'asd123')
