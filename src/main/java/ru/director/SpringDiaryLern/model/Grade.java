@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,9 +21,11 @@ public class Grade {
 
     @Column(name = "name")
     private String name;
-    
+
     @OneToMany
     private List<Student> students;
+
+    String studentName;
 
     public Grade(String name, List<Student> students) {
         this.name = name;

@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Teacher {
+
     @Id
     @GeneratedValue
     @Column(name = "id",
@@ -25,7 +26,7 @@ public class Teacher {
         this.name = name;
     }
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "grade_id")
     Grade grade;
 

@@ -22,9 +22,16 @@ public class Student {
     columnDefinition = "TEXT")
     private String name;
 
+    @ManyToOne
+    private Grade grade;
 
     public Student(String name) {
         this.name = name;
+    }
+
+    public Student(String name, Grade grade) {
+        this.name = name;
+        this.grade = grade;
     }
 
     public Student() {

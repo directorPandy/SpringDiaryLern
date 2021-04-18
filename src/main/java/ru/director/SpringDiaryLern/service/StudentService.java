@@ -1,12 +1,14 @@
 package ru.director.SpringDiaryLern.service;
 
+import ru.director.SpringDiaryLern.dto.StudentDto;
 import ru.director.SpringDiaryLern.model.Student;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface StudentService {
 
-    Student getById(Long id);
+    StudentDto getById(Long id) throws SQLException;
 
     List<Student> getAll();
 
