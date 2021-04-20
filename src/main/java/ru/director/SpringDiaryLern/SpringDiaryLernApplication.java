@@ -14,8 +14,10 @@ import ru.director.SpringDiaryLern.service.TeacherService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SpringBootApplication
 public class SpringDiaryLernApplication {
@@ -47,9 +49,23 @@ public class SpringDiaryLernApplication {
 		grade.setStudents(students);
 		gradeService.save(grade);
 
+		Grade grade1 = new Grade("lahi");
+		gradeService.save(grade1);
+
+		Student petro = new Student("petro", grade1);
+		Student shelma = new Student("shelma", grade1);
+		studentService.save(petro);
+		studentService.save(shelma);
+
+		List<Student> students1 = Arrays.asList(petro, shelma);
+		grade1.setStudents(students1);
+		gradeService.save(grade1);
+
 		Teacher maryJuanna = new Teacher("maryJuanna", grade);
 		teacherService.save(maryJuanna);
 
+		Teacher marySemenna = new Teacher("marySemenna", grade1);
+		teacherService.save(marySemenna);
 
 	}
 }
