@@ -1,5 +1,6 @@
 package ru.director.SpringDiaryLern.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.dto.TeacherDto;
@@ -12,11 +13,11 @@ public interface TeacherService {
 
     TeacherDto getById(Long id) throws SQLException;
 
-    List<TeacherDto> findAll() throws SQLException;
+    Page<TeacherDto> findAll(Pageable pageable) throws SQLException;
 
     void save(Teacher teacher);
 
-    List<TeacherDto> findTeacherByName(String name) throws SQLException;
+    Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException;
 
 
 

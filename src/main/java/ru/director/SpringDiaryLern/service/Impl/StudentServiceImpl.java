@@ -1,6 +1,9 @@
 package ru.director.SpringDiaryLern.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.dto.StudentDto;
@@ -34,14 +37,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDto> findAll() throws SQLException {
+    public Page<StudentDto> findAll(Pageable pageable) throws SQLException {
         List<StudentDto> studentsDto = new ArrayList<>();
-        List<Student> students = studentRepos.findAll();
+        Page<Student> students = studentRepos.findAll(pageable);
         for (Student student: students) {
             Long id = student.getId();
             studentsDto.add(studentMappingUtil.mapToStudentDto(
                     studentRepos.getById(id)));
-        } return studentsDto;
+        } Page<StudentDto> page = new PageImpl<>(studentsDto);
+        return page;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDto> findStudentByName(String name) throws SQLException {
+    public Page<StudentDto> findStudentByName(String name, Pageable Pageable) throws SQLException {
         List<StudentDto> listDto = new ArrayList<>();
         List<Student> studentList = studentRepos.findStudentByName(name);
         for(Student student:studentList){
@@ -57,6 +61,7 @@ public class StudentServiceImpl implements StudentService {
             StudentDto studentDto = studentMappingUtil.mapToStudentDto(
                     studentRepos.getById(id));
             listDto.add(studentDto);
-        }return  listDto;
+        } Page<StudentDto> page= new PageImpl<>(listDto);
+        return  page;
     }
 }

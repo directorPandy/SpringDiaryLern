@@ -1,13 +1,15 @@
 package ru.director.SpringDiaryLern.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.repos.GradeRepos;
 import ru.director.SpringDiaryLern.service.GradeService;
 import ru.director.SpringDiaryLern.utils.GradeMappingUtil;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,15 +37,21 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public List<GradeDto> findAll() throws SQLException {
+    public Page<GradeDto> findAll(Pageable pageable) throws SQLException {
         List<GradeDto> listDto = new ArrayList<>();
-        List<Grade> list = gradeRepos.findAll();
+        Page<Grade> list = gradeRepos.findAll(pageable);
+        return getGradeDtos(listDto, list);
+    }
+
+    private Page<GradeDto> getGradeDtos(List<GradeDto> listDto, Page<Grade> list) throws SQLException {
         for(Grade grade:list){
             Long id = grade.getId();
-            GradeDto gradeDto = mappingUtil.mapToGradeDto(
+            GradeDto gradeDto1 = mappingUtil.mapToGradeDto(
                     gradeRepos.getById(id));
-            listDto.add(gradeDto);
-        }return  listDto;
+            listDto.add(gradeDto1);
+        }
+        Page<GradeDto> page = new PageImpl<>(listDto);
+        return page;
     }
 
     @Override
@@ -52,15 +60,10 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public List<GradeDto> findByName(String name) throws SQLException {
+    public Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException {
         List<GradeDto> listDto = new ArrayList<>();
-        List<Grade> gradesList = gradeRepos.findGradeByName(name);
-        for(Grade grade:gradesList){
-            Long id = grade.getId();
-            GradeDto gradeDto = mappingUtil.mapToGradeDto(
-                    gradeRepos.getById(id));
-            listDto.add(gradeDto);
-        }return  listDto;
+        Page<Grade> gradesList = gradeRepos.findGradeByName(name, pageable);
+        return getGradeDtos(listDto, gradesList);
     }
 
 }

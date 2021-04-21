@@ -2,6 +2,9 @@ package ru.director.SpringDiaryLern.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,19 +40,19 @@ public class TeacherRestController {
         this.teacherService.save(teacher);
         return new ResponseEntity<>(teacher, HttpStatus.OK);
     }
+
     @RequestMapping(value = "allTeachers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TeacherDto>> findAllTeachers() throws SQLException {
-        List<TeacherDto> list = this.teacherService.findAll();
+    public ResponseEntity<Page<TeacherDto>> findAllStudents(
+            @PageableDefault(page = 0, size = 10)
+                    Pageable pageable) throws SQLException {
+        Page<TeacherDto> list =   this.teacherService.findAll(pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PagedListHolder> findTeacherByName(@RequestParam Optional<String> name) throws SQLException {
-        List<TeacherDto> list = this.teacherService.findTeacherByName(name.orElse("_"));
-        PagedListHolder page = new PagedListHolder(list);
-        page.setPageSize(1);
-        page.setPage(1);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+    public ResponseEntity<Page<TeacherDto>> findStudentByName(@RequestParam String name, Pageable pageable) throws SQLException {
+        Page<TeacherDto> list = this.teacherService.findTeacherByName(name, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

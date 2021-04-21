@@ -1,7 +1,12 @@
 package ru.director.SpringDiaryLern.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.director.SpringDiaryLern.dto.GradeDto;
+import ru.director.SpringDiaryLern.dto.StudentDto;
 import ru.director.SpringDiaryLern.dto.TeacherDto;
 import ru.director.SpringDiaryLern.model.Teacher;
 import ru.director.SpringDiaryLern.repos.TeacherRepos;
@@ -33,16 +38,21 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<TeacherDto> findAll() throws SQLException {
+    public Page<TeacherDto> findAll(Pageable pageable) throws SQLException {
         List<TeacherDto> teachersDto = new ArrayList<>();
-        List<Teacher> teachers = teacherRepos.findAll();
+        Page<Teacher> teachers = teacherRepos.findAll(pageable);
+        return getTeacherDtos(teachersDto, teachers);
+    }
+
+    private Page<TeacherDto> getTeacherDtos(List<TeacherDto> teachersDto, Page<Teacher> teachers) throws SQLException {
         for (Teacher teacher : teachers) {
             Long id = teacher.getId();
             TeacherDto teacherDto = teacherMappingUtil.mapToTeacherDto(
                     teacherRepos.getById(id));
             teachersDto.add(teacherDto);
         }
-        return teachersDto;
+        Page<TeacherDto> page= new PageImpl<>(teachersDto);
+        return page;
     }
 
     @Override
@@ -52,15 +62,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public List<TeacherDto> findTeacherByName(String name) throws SQLException {
+    public Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException {
         List<TeacherDto> listDto = new ArrayList<>();
-        List<Teacher> teachersList = teacherRepos.findTeacherByName(name);
-        for (Teacher teacher : teachersList) {
-            Long id = teacher.getId();
-            TeacherDto teacherDto = teacherMappingUtil.mapToTeacherDto(
-                    teacherRepos.getById(id));
-            listDto.add(teacherDto);
-        }
-        return listDto;
+        Page<Teacher> teachersList = teacherRepos.findTeacherByName(name, pageable);
+        return getTeacherDtos(listDto, teachersList);
     }
 }
