@@ -42,9 +42,7 @@ public class StudentRestController {
     }
 
     @RequestMapping(value = "allStudents", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<StudentDto>> findAllStudents(
-                                                            @PageableDefault(page = 0, size = 10)
-                                                            Pageable pageable) throws SQLException {
+    public ResponseEntity<Page<StudentDto>> findAllStudents(Pageable pageable) throws SQLException {
         Page<StudentDto> list =   this.studentService.findAll(pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
