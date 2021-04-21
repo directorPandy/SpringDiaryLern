@@ -41,18 +41,17 @@ public class TeacherServiceImpl implements TeacherService {
     public Page<TeacherDto> findAll(Pageable pageable) throws SQLException {
         List<TeacherDto> teachersDto = new ArrayList<>();
         Page<Teacher> teachers = teacherRepos.findAll(pageable);
-        return getTeacherDtos(teachersDto, teachers);
+        return getTeacherDto(teachersDto, teachers);
     }
 
-    private Page<TeacherDto> getTeacherDtos(List<TeacherDto> teachersDto, Page<Teacher> teachers) throws SQLException {
+    private Page<TeacherDto> getTeacherDto(List<TeacherDto> teachersDto, Page<Teacher> teachers) throws SQLException {
         for (Teacher teacher : teachers) {
             Long id = teacher.getId();
             TeacherDto teacherDto = teacherMappingUtil.mapToTeacherDto(
                     teacherRepos.getById(id));
             teachersDto.add(teacherDto);
         }
-        Page<TeacherDto> page= new PageImpl<>(teachersDto);
-        return page;
+        return new PageImpl<>(teachersDto);
     }
 
     @Override
@@ -65,6 +64,6 @@ public class TeacherServiceImpl implements TeacherService {
     public Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException {
         List<TeacherDto> listDto = new ArrayList<>();
         Page<Teacher> teachersList = teacherRepos.findTeacherByName(name, pageable);
-        return getTeacherDtos(listDto, teachersList);
+        return getTeacherDto(listDto, teachersList);
     }
 }

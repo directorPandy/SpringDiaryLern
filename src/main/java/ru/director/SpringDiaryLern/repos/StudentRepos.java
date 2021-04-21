@@ -13,7 +13,7 @@ import java.util.List;
 public interface StudentRepos extends JpaRepository<Student, Long>  {
 
     @Query("select s from Student s where s.name like %?1%")
-    List<Student> findStudentByName(String name);
+    Page<Student> findStudentByName(String name, Pageable pageable);
 
     Page<Student> findAll(Pageable pageable);
 

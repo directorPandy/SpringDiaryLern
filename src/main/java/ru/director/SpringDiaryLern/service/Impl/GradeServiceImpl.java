@@ -40,18 +40,17 @@ public class GradeServiceImpl implements GradeService {
     public Page<GradeDto> findAll(Pageable pageable) throws SQLException {
         List<GradeDto> listDto = new ArrayList<>();
         Page<Grade> list = gradeRepos.findAll(pageable);
-        return getGradeDtos(listDto, list);
+        return getGradeDto(listDto, list);
     }
 
-    private Page<GradeDto> getGradeDtos(List<GradeDto> listDto, Page<Grade> list) throws SQLException {
+    private Page<GradeDto> getGradeDto(List<GradeDto> listDto, Page<Grade> list) throws SQLException {
         for(Grade grade:list){
             Long id = grade.getId();
             GradeDto gradeDto1 = mappingUtil.mapToGradeDto(
                     gradeRepos.getById(id));
             listDto.add(gradeDto1);
         }
-        Page<GradeDto> page = new PageImpl<>(listDto);
-        return page;
+        return new PageImpl<>(listDto);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class GradeServiceImpl implements GradeService {
     public Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException {
         List<GradeDto> listDto = new ArrayList<>();
         Page<Grade> gradesList = gradeRepos.findGradeByName(name, pageable);
-        return getGradeDtos(listDto, gradesList);
+        return getGradeDto(listDto, gradesList);
     }
 
 }

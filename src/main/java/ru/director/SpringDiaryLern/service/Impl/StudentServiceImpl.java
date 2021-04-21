@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.dto.StudentDto;
+import ru.director.SpringDiaryLern.dto.TeacherDto;
 import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.model.Student;
+import ru.director.SpringDiaryLern.model.Teacher;
 import ru.director.SpringDiaryLern.repos.StudentRepos;
 import ru.director.SpringDiaryLern.service.StudentService;
 import ru.director.SpringDiaryLern.utils.StudentMappingUtil;
@@ -40,28 +42,29 @@ public class StudentServiceImpl implements StudentService {
     public Page<StudentDto> findAll(Pageable pageable) throws SQLException {
         List<StudentDto> studentsDto = new ArrayList<>();
         Page<Student> students = studentRepos.findAll(pageable);
-        for (Student student: students) {
-            Long id = student.getId();
-            studentsDto.add(studentMappingUtil.mapToStudentDto(
-                    studentRepos.getById(id)));
-        } Page<StudentDto> page = new PageImpl<>(studentsDto);
-        return page;
+        return getStudentsDto(studentsDto, students);
     }
 
-    @Override
-    public void save(Student student) { studentRepos.save(student);
-    }
 
     @Override
-    public Page<StudentDto> findStudentByName(String name, Pageable Pageable) throws SQLException {
-        List<StudentDto> listDto = new ArrayList<>();
-        List<Student> studentList = studentRepos.findStudentByName(name);
-        for(Student student:studentList){
+    public void save(Student student) {
+        studentRepos.save(student);
+    }
+
+    private Page<StudentDto> getStudentsDto(List<StudentDto> studentsDto, Page<Student> students) throws SQLException {
+        for (Student student : students) {
             Long id = student.getId();
             StudentDto studentDto = studentMappingUtil.mapToStudentDto(
                     studentRepos.getById(id));
-            listDto.add(studentDto);
-        } Page<StudentDto> page= new PageImpl<>(listDto);
-        return  page;
+            studentsDto.add(studentDto);
+        }
+        return new PageImpl<>(studentsDto);
+    }
+
+    @Override
+    public Page<StudentDto> findStudentByName(String name, Pageable pageable) throws SQLException {
+        List<StudentDto> listDto = new ArrayList<>();
+        Page<Student> studentsList = studentRepos.findStudentByName(name, pageable);
+        return getStudentsDto(listDto, studentsList);
     }
 }
