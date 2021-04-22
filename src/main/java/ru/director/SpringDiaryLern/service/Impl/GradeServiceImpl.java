@@ -11,6 +11,7 @@ import ru.director.SpringDiaryLern.service.GradeService;
 import ru.director.SpringDiaryLern.utils.GradeMappingUtil;
 
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,14 @@ public class GradeServiceImpl implements GradeService {
 
 
     @Override
-    public GradeDto getById(Long id) throws SQLException {
+    public GradeDto getById(Long id) throws SQLException, IOException {
         return mappingUtil.mapToGradeDto(
                 gradeRepos.getById(id)
         );
     }
 
     @Override
-    public Page<GradeDto> findAll(Pageable pageable) throws SQLException {
+    public Page<GradeDto> findAll(Pageable pageable) throws SQLException, IOException {
         List<GradeDto> listDto = new ArrayList<>();
         Page<Grade> list = gradeRepos.findAll(pageable);
         return getGradeDto(listDto, list);
@@ -59,7 +60,7 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException {
+    public Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException, IOException {
         List<GradeDto> listDto = new ArrayList<>();
         Page<Grade> gradesList = gradeRepos.findGradeByName(name, pageable);
         return getGradeDto(listDto, gradesList);

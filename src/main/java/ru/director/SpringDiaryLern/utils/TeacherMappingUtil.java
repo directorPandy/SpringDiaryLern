@@ -12,6 +12,7 @@ import ru.director.SpringDiaryLern.repos.GradeRepos;
 import ru.director.SpringDiaryLern.service.GradeService;
 import ru.director.SpringDiaryLern.service.Impl.GradeServiceImpl;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -26,7 +27,7 @@ public class TeacherMappingUtil {
         this.gradeService = gradeService;
     }
 
-    public TeacherDto mapToTeacherDto(Teacher teacher) throws SQLException {
+    public TeacherDto mapToTeacherDto(Teacher teacher) throws SQLException, IOException {
 
         Long id;
         id = teacher.getGrade().getId();

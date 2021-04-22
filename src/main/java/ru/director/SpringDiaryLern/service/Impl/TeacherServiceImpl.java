@@ -5,14 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.director.SpringDiaryLern.dto.GradeDto;
-import ru.director.SpringDiaryLern.dto.StudentDto;
+
 import ru.director.SpringDiaryLern.dto.TeacherDto;
 import ru.director.SpringDiaryLern.model.Teacher;
 import ru.director.SpringDiaryLern.repos.TeacherRepos;
 import ru.director.SpringDiaryLern.service.TeacherService;
 import ru.director.SpringDiaryLern.utils.TeacherMappingUtil;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,20 +31,20 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TeacherDto getById(Long id) throws SQLException {
+    public TeacherDto getById(Long id) throws SQLException, IOException {
         return teacherMappingUtil.mapToTeacherDto(
                 teacherRepos.getById(id)
         );
     }
 
     @Override
-    public Page<TeacherDto> findAll(Pageable pageable) throws SQLException {
+    public Page<TeacherDto> findAll(Pageable pageable) throws SQLException, IOException {
         List<TeacherDto> teachersDto = new ArrayList<>();
         Page<Teacher> teachers = teacherRepos.findAll(pageable);
         return getTeacherDto(teachersDto, teachers);
     }
 
-    private Page<TeacherDto> getTeacherDto(List<TeacherDto> teachersDto, Page<Teacher> teachers) throws SQLException {
+    private Page<TeacherDto> getTeacherDto(List<TeacherDto> teachersDto, Page<Teacher> teachers) throws SQLException, IOException {
         for (Teacher teacher : teachers) {
             Long id = teacher.getId();
             TeacherDto teacherDto = teacherMappingUtil.mapToTeacherDto(
@@ -61,7 +61,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException {
+    public Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException, IOException {
         List<TeacherDto> listDto = new ArrayList<>();
         Page<Teacher> teachersList = teacherRepos.findTeacherByName(name, pageable);
         return getTeacherDto(listDto, teachersList);

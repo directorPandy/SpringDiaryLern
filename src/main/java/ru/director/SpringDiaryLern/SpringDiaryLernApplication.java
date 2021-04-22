@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import ru.director.SpringDiaryLern.connectionControllers.ConnectionModule;
+
+import ru.director.SpringDiaryLern.model.Credential;
 import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.model.Student;
 import ru.director.SpringDiaryLern.model.Teacher;
@@ -13,11 +14,11 @@ import ru.director.SpringDiaryLern.service.StudentService;
 import ru.director.SpringDiaryLern.service.TeacherService;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
+
 
 @SpringBootApplication
 public class SpringDiaryLernApplication {
@@ -27,14 +28,18 @@ public class SpringDiaryLernApplication {
 	private static TeacherService teacherService;
 
 
+
+
+
 	@Autowired
-	public SpringDiaryLernApplication(GradeService gradeService, StudentService studentService, TeacherService teacherService) {
-		this.gradeService = gradeService;
-		this.studentService = studentService;
-		this.teacherService = teacherService;
+	public SpringDiaryLernApplication( GradeService gradeService, StudentService studentService, TeacherService teacherService) {
+		SpringDiaryLernApplication.gradeService = gradeService;
+		SpringDiaryLernApplication.studentService = studentService;
+		SpringDiaryLernApplication.teacherService = teacherService;
+
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		SpringApplication.run(SpringDiaryLernApplication.class,args);
 
 		Grade grade = new Grade("lohi");
@@ -67,5 +72,10 @@ public class SpringDiaryLernApplication {
 		Teacher marySemenna = new Teacher("marySemenna", grade1);
 		teacherService.save(marySemenna);
 
+		Credential credential = new Credential();
+		credential.getCredentials(credential);
+		Connection connection = DriverManager.getConnection(credential.getUrl(), credential.getUsername(),
+				credential.getPassword());
+		System.out.println(connection);
 	}
 }

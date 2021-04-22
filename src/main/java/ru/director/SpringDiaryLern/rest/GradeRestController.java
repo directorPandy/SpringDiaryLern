@@ -2,13 +2,12 @@ package ru.director.SpringDiaryLern.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.beans.support.PagedListHolder;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,9 @@ import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.service.GradeService;
 
 
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1/grades/")
@@ -34,7 +33,7 @@ public class GradeRestController {
     }
 
     @RequestMapping(value="{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GradeDto> getGrade(@PathVariable("id") Long gradeId) throws SQLException {
+    public ResponseEntity<GradeDto> getGrade(@PathVariable("id") Long gradeId) throws SQLException, IOException {
         GradeDto grade = this.gradeService.getById(gradeId);
         return new ResponseEntity<>(grade, HttpStatus.OK);
     }
@@ -46,14 +45,14 @@ public class GradeRestController {
     }
 
     @RequestMapping(value="allGrades", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<GradeDto>> findAllGrades (@PageableDefault(page = 0, size = 10)
-                                                         Pageable pageable) throws SQLException {
+    public ResponseEntity<Page<GradeDto>> findAllGrades (
+                                                         Pageable pageable) throws SQLException, IOException {
         Page<GradeDto> list = this.gradeService.findAll(pageable);
             return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value="findGrade", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<GradeDto>> findGradeByName(@RequestParam String name, Pageable pageable) throws SQLException {
+    public ResponseEntity<Page<GradeDto>> findGradeByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
         Page<GradeDto> list = this.gradeService.findByName(name, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

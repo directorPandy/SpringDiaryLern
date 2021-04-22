@@ -22,9 +22,6 @@ public class Teacher {
             columnDefinition = "TEXT")
     private String name;
 
-    public Teacher(String name) {
-        this.name = name;
-    }
 
     @OneToOne()
     @JoinColumn(name = "grade_id")
