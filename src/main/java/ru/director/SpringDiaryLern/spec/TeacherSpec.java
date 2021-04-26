@@ -16,27 +16,36 @@ import java.util.List;
 @Component
 public class TeacherSpec implements Specification<Teacher> {
 
+    public String key;
+    public Object value;
+    public String operation;
+
+    public TeacherSpec(String key, Object value, String operation) {
+        this.key = key;
+        this.value = value;
+        this.operation = operation;
+    }
+
     public List<SearchCriteria> list;
 
     public TeacherSpec() {
         this.list = new ArrayList<>();
     }
 
+
     public void add(SearchCriteria searchCriteria) {
         list.add(searchCriteria);
     }
-
 
     @Override
     public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
 
-        for (SearchCriteria criteria : list) {
-            if (criteria.getOperation().equals(":")) {
+            if (this.getOperation().equals(":")) {
                 predicates.add(criteriaBuilder.equal(
-                        root.get(criteria.getKey()), criteria.getValue()));
+                        root.get(this.getKey()), this.getValue()));
             }
-        }
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        }
+
     }
-}

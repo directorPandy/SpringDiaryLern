@@ -54,11 +54,8 @@ public class TeacherRestController {
 
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherDto>> findTeacherByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
-        TeacherSpec teacherSpec = new TeacherSpec();
-        teacherSpec.add(new SearchCriteria("name", name, ":"));
+        TeacherSpec teacherSpec = new TeacherSpec("name", name, ":");
         Page<TeacherDto> list = this.teacherService.findTeacherByName(teacherSpec, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
-
 }
