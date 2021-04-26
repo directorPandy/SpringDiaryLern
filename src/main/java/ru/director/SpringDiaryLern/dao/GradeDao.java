@@ -1,7 +1,5 @@
 package ru.director.SpringDiaryLern.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.director.SpringDiaryLern.model.Credential;
 import ru.director.SpringDiaryLern.model.Grade;
 

@@ -1,6 +1,7 @@
 package ru.director.SpringDiaryLern.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.model.Grade;
 import java.io.IOException;
@@ -15,6 +16,6 @@ public interface GradeService {
 
     void save(Grade grade);
 
-    Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException, IOException;
 
+    Page<GradeDto> findGradeByName(Specification<Grade> specification, Pageable pageable) throws SQLException;
 }

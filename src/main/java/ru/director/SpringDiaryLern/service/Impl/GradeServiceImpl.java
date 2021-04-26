@@ -3,7 +3,9 @@ package ru.director.SpringDiaryLern.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.director.SpringDiaryLern.spec.GradeSpec;
 import ru.director.SpringDiaryLern.dto.GradeDto;
 import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.repos.GradeRepos;
@@ -21,12 +23,14 @@ public class GradeServiceImpl implements GradeService {
 
     private final GradeRepos gradeRepos;
     private final GradeMappingUtil mappingUtil;
+    private final GradeSpec gradeSpec;
 
 
     @Autowired
-    public GradeServiceImpl(GradeRepos gradeRepos, GradeMappingUtil mappingUtil) {
+    public GradeServiceImpl(GradeSpec gradeSpec,GradeRepos gradeRepos, GradeMappingUtil mappingUtil) {
         this.gradeRepos = gradeRepos;
         this.mappingUtil = mappingUtil;
+        this.gradeSpec = gradeSpec;
     }
 
 
@@ -60,9 +64,9 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Page<GradeDto> findByName(String name, Pageable pageable) throws SQLException, IOException {
+    public Page<GradeDto> findGradeByName(Specification<Grade> specification, Pageable pageable) throws SQLException {
         List<GradeDto> listDto = new ArrayList<>();
-        Page<Grade> gradesList = gradeRepos.findGradeByName(name, pageable);
+        Page<Grade> gradesList = gradeRepos.findAll(specification, pageable);
         return getGradeDto(listDto, gradesList);
     }
 

@@ -42,11 +42,11 @@ public class SpringDiaryLernApplication {
 	public static void main(String[] args) throws SQLException {
 		SpringApplication.run(SpringDiaryLernApplication.class,args);
 
-		Grade grade = new Grade("lohi");
+		Grade grade = new Grade("USSR");
 		gradeService.save(grade);
 
-		Student misha = new Student("misha", grade);
-		Student vasya = new Student("vasya", grade);
+		Student misha = new Student("lenin", grade);
+		Student vasya = new Student("stalin", grade);
 		studentService.save(misha);
 		studentService.save(vasya);
 
@@ -54,11 +54,11 @@ public class SpringDiaryLernApplication {
 		grade.setStudents(students);
 		gradeService.save(grade);
 
-		Grade grade1 = new Grade("lahi");
+		Grade grade1 = new Grade("US");
 		gradeService.save(grade1);
 
-		Student petro = new Student("petro", grade1);
-		Student shelma = new Student("shelma", grade1);
+		Student petro = new Student("WASHINGTON", grade1);
+		Student shelma = new Student("LINCOLN", grade1);
 		studentService.save(petro);
 		studentService.save(shelma);
 
@@ -66,10 +66,10 @@ public class SpringDiaryLernApplication {
 		grade1.setStudents(students1);
 		gradeService.save(grade1);
 
-		Teacher maryJuanna = new Teacher("maryJuanna", grade);
+		Teacher maryJuanna = new Teacher("Mary", grade);
 		teacherService.save(maryJuanna);
 
-		Teacher marySemenna = new Teacher("marySemenna", grade1);
+		Teacher marySemenna = new Teacher("Anna", grade1);
 		teacherService.save(marySemenna);
 
 		Credential credential = new Credential();
