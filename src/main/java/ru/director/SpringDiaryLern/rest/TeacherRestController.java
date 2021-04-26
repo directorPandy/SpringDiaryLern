@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.director.SpringDiaryLern.dto.TeacherDto;
 import ru.director.SpringDiaryLern.model.Teacher;
 import ru.director.SpringDiaryLern.service.TeacherService;
+import ru.director.SpringDiaryLern.spec.GradeSpec;
+import ru.director.SpringDiaryLern.spec.SearchCriteria;
+import ru.director.SpringDiaryLern.spec.SearchOperation;
+import ru.director.SpringDiaryLern.spec.TeacherSpec;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -49,9 +53,12 @@ public class TeacherRestController {
     }
 
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<TeacherDto>> findStudentByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
-        Page<TeacherDto> list = this.teacherService.findTeacherByName(name, pageable);
+    public ResponseEntity<Page<TeacherDto>> findTeacherByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
+        TeacherSpec teacherSpec = new TeacherSpec();
+        teacherSpec.add(new SearchCriteria("name", name, ":"));
+        Page<TeacherDto> list = this.teacherService.findTeacherByName(teacherSpec, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
 
 }

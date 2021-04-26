@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import ru.director.SpringDiaryLern.dto.TeacherDto;
@@ -61,9 +62,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public Page<TeacherDto> findTeacherByName(String name, Pageable pageable) throws SQLException, IOException {
+    public Page<TeacherDto> findTeacherByName(Specification specification, Pageable pageable) throws SQLException, IOException {
         List<TeacherDto> listDto = new ArrayList<>();
-        Page<Teacher> teachersList = teacherRepos.findTeacherByName(name, pageable);
+        Page<Teacher> teachersList = teacherRepos.findAll(specification, pageable);
         return getTeacherDto(listDto, teachersList);
     }
 }

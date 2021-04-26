@@ -6,11 +6,11 @@ import lombok.Data;
 
 public class SearchCriteria {
 
-        String key;
-        Object value;
-    SearchOperation operation;
+    String key;
+    Object value;
+    String operation;
 
-    public SearchCriteria(String key,Object value, SearchOperation operation) {
+    public SearchCriteria(String key,Object value, String operation) {
         this.key = key;
         this.value = value;
         this.operation = operation;

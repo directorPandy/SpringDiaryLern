@@ -58,7 +58,7 @@ public class GradeRestController {
     @RequestMapping(value="findGrade", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<GradeDto>>Search(@RequestParam String name, Pageable pageable) throws SQLException {
         GradeSpec gradeSpec = new GradeSpec();
-        gradeSpec.add(new SearchCriteria("name", name, SearchOperation.EQUAL));
+        gradeSpec.add(new SearchCriteria("name", name, ":"));
         Page<GradeDto> list = this.gradeService.findGradeByName(gradeSpec, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
