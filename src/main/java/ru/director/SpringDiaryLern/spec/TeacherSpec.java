@@ -20,22 +20,7 @@ public class TeacherSpec implements Specification<Teacher> {
     public Object value;
     public String operation;
 
-    public TeacherSpec(String key, Object value, String operation) {
-        this.key = key;
-        this.value = value;
-        this.operation = operation;
-    }
 
-    public List<SearchCriteria> list;
-
-    public TeacherSpec() {
-        this.list = new ArrayList<>();
-    }
-
-
-    public void add(SearchCriteria searchCriteria) {
-        list.add(searchCriteria);
-    }
 
     @Override
     public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -48,4 +33,9 @@ public class TeacherSpec implements Specification<Teacher> {
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         }
 
+    public Specification<Teacher> tolyanLoh(final String name) {
+        return (root, query, builder)
+                -> builder.or(builder.in(root.get("name")).value(name));
     }
+}
+

@@ -3,6 +3,7 @@ package ru.director.SpringDiaryLern.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,8 +55,9 @@ public class TeacherRestController {
 
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherDto>> findTeacherByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
-        TeacherSpec teacherSpec = new TeacherSpec("name", name, ":");
-        Page<TeacherDto> list = this.teacherService.findTeacherByName(teacherSpec, pageable);
+        TeacherSpec teacherSpec = new TeacherSpec();
+        Specification<Teacher> specification = teacherSpec.tolyanLoh(name);
+        Page<TeacherDto> list = this.teacherService.findTeacherByName(specification, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
