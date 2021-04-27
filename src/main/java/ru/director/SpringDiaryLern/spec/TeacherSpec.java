@@ -11,6 +11,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Data
 @Component
@@ -20,10 +23,9 @@ public class TeacherSpec implements Specification<Teacher> {
     public Object value;
     public String operation;
 
-
-
     @Override
-    public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery,
+                                 CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
 
             if (this.getOperation().equals(":")) {
@@ -37,5 +39,13 @@ public class TeacherSpec implements Specification<Teacher> {
         return (root, query, builder)
                 -> builder.or(builder.in(root.get("name")).value(name));
     }
+
+    public Specification<Teacher> listLohov(final List<String> names){
+        return (root, query, builder)
+                -> builder.or(builder.in(root.get("name")).value(names));
+
+    }
+
+
 }
 

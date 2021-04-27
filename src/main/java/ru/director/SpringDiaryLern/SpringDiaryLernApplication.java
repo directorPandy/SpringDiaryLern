@@ -72,6 +72,9 @@ public class SpringDiaryLernApplication {
 		Teacher marySemenna = new Teacher("Anna", grade1);
 		teacherService.save(marySemenna);
 
+		Teacher maryVasillevna = new Teacher("Vika", grade1);
+		teacherService.save(maryVasillevna);
+
 		Credential credential = new Credential();
 		credential.getCredentials(credential);
 		Connection connection = DriverManager.getConnection(credential.getUrl(), credential.getUsername(),

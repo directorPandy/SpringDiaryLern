@@ -13,7 +13,7 @@ public interface TeacherService {
 
     TeacherDto getById(Long id) throws SQLException, IOException;
 
-    Page<TeacherDto> findAll(Pageable pageable) throws SQLException, IOException;
+    Page<TeacherDto> findAll(Specification specification, Pageable pageable) throws SQLException, IOException;
 
     void save(Teacher teacher);
 

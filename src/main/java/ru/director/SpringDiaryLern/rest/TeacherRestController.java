@@ -20,6 +20,8 @@ import ru.director.SpringDiaryLern.spec.TeacherSpec;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -45,13 +47,13 @@ public class TeacherRestController {
         return new ResponseEntity<>(teacher, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "allTeachers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+/*    @RequestMapping(value = "allTeachers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherDto>> findAllStudents(
             @PageableDefault()
                     Pageable pageable) throws SQLException, IOException {
-        Page<TeacherDto> list =   this.teacherService.findAll(pageable);
+        Page<TeacherDto> list =   this.teacherService.findAll( pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
-    }
+    }*/
 
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherDto>> findTeacherByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
@@ -59,5 +61,17 @@ public class TeacherRestController {
         Specification<Teacher> specification = teacherSpec.tolyanLoh(name);
         Page<TeacherDto> list = this.teacherService.findTeacherByName(specification, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="findTeacherFromList", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TeacherDto>> findTeacherFromList(Pageable pageable) throws SQLException, IOException {
+        TeacherSpec teacherSpec = new TeacherSpec();
+        List<String> names = new ArrayList<>();
+        names.add("Mary");
+        names.add("Vika");
+        Specification<Teacher> specification = teacherSpec.listLohov(names);
+        Page<TeacherDto> list = this.teacherService.findAll(specification, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+
     }
 }

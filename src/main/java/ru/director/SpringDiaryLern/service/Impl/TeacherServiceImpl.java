@@ -39,9 +39,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Page<TeacherDto> findAll(Pageable pageable) throws SQLException, IOException {
+    public Page<TeacherDto> findAll(Specification specification, Pageable pageable) throws SQLException, IOException {
         List<TeacherDto> teachersDto = new ArrayList<>();
-        Page<Teacher> teachers = teacherRepos.findAll(pageable);
+        Page<Teacher> teachers = teacherRepos.findAll(specification, pageable);
         return getTeacherDto(teachersDto, teachers);
     }
 
