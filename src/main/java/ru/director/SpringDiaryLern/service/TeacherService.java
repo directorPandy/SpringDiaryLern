@@ -7,6 +7,7 @@ import ru.director.SpringDiaryLern.dto.TeacherDto;
 import ru.director.SpringDiaryLern.model.Teacher;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public interface TeacherService {
@@ -19,6 +20,5 @@ public interface TeacherService {
 
     Page<TeacherDto> findTeacherByName(Specification specification, Pageable pageable) throws SQLException, IOException;
 
-
-
+    Teacher findTeacherByNamewWthtDto(String name) throws SQLException, IOException;
 }

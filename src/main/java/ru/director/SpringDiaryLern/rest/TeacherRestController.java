@@ -35,7 +35,7 @@ public class TeacherRestController {
         this.teacherService = teacherService;
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<TeacherDto> getTeacher(@PathVariable("id") Long teacherId) throws SQLException, IOException {
         TeacherDto teacher = this.teacherService.getById(teacherId);
         return new ResponseEntity<>(teacher, HttpStatus.OK);
@@ -47,14 +47,6 @@ public class TeacherRestController {
         return new ResponseEntity<>(teacher, HttpStatus.OK);
     }
 
-/*    @RequestMapping(value = "allTeachers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<TeacherDto>> findAllStudents(
-            @PageableDefault()
-                    Pageable pageable) throws SQLException, IOException {
-        Page<TeacherDto> list =   this.teacherService.findAll( pageable);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }*/
-
     @RequestMapping(value="findTeacher", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherDto>> findTeacherByName(@RequestParam String name, Pageable pageable) throws SQLException, IOException {
         TeacherSpec teacherSpec = new TeacherSpec();
@@ -63,15 +55,24 @@ public class TeacherRestController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @RequestMapping(value="findTeacherFromList", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<TeacherDto>> findTeacherFromList(Pageable pageable) throws SQLException, IOException {
+    @RequestMapping(value="allTeachers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TeacherDto>> allTeachers(Pageable pageable) throws SQLException, IOException {
+        TeacherSpec teacherSpec = new TeacherSpec();
+        teacherSpec.vseLohi();
+        Page<TeacherDto> list = this.teacherService.findAll(teacherSpec, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="findTeacherFromList", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TeacherDto>>
+    findTeacherFromList(Pageable pageable) throws SQLException, IOException {
         TeacherSpec teacherSpec = new TeacherSpec();
         List<String> names = new ArrayList<>();
+        names.add("Jeka LOH");
         names.add("Mary");
-        names.add("Vika");
         Specification<Teacher> specification = teacherSpec.listLohov(names);
         Page<TeacherDto> list = this.teacherService.findAll(specification, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
-
     }
 }

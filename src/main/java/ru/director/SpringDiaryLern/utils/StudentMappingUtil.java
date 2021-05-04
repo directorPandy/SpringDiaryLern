@@ -8,9 +8,11 @@ import ru.director.SpringDiaryLern.dto.StudentDto;
 import ru.director.SpringDiaryLern.model.Student;
 
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 
 @Service
+@Transactional
 public class StudentMappingUtil {
 
     Long gradeId;

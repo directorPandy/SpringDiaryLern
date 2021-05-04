@@ -13,12 +13,15 @@ import ru.director.SpringDiaryLern.repos.TeacherRepos;
 import ru.director.SpringDiaryLern.service.TeacherService;
 import ru.director.SpringDiaryLern.utils.TeacherMappingUtil;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
+@Transactional
 public class TeacherServiceImpl implements TeacherService {
 
 
@@ -60,11 +63,15 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepos.save(teacher);
     }
 
-
     @Override
     public Page<TeacherDto> findTeacherByName(Specification specification, Pageable pageable) throws SQLException, IOException {
         List<TeacherDto> listDto = new ArrayList<>();
         Page<Teacher> teachersList = teacherRepos.findAll(specification, pageable);
         return getTeacherDto(listDto, teachersList);
+    }
+
+    @Override
+    public Teacher findTeacherByNamewWthtDto(String name){
+        return teacherRepos.findTeacherByName(name);
     }
 }

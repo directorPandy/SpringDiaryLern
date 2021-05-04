@@ -5,10 +5,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Service;
 import ru.director.SpringDiaryLern.model.Student;
 
 
-
+@Service
 public interface StudentRepos extends JpaRepository<Student, Long>  {
 
     @Query("select s from Student s where s.name like %?1%")

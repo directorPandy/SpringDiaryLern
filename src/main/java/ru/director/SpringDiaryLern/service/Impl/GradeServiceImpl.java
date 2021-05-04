@@ -13,12 +13,14 @@ import ru.director.SpringDiaryLern.service.GradeService;
 import ru.director.SpringDiaryLern.utils.GradeMappingUtil;
 
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class GradeServiceImpl implements GradeService {
 
     private final GradeRepos gradeRepos;

@@ -2,6 +2,7 @@ package ru.director.SpringDiaryLern.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import javax.persistence.*;
 
@@ -33,6 +34,10 @@ public class Teacher {
     }
 
     public Teacher() {
+    }
+
+    public Teacher(String name) {
+        this.name = name;
     }
 
     public Long getId() {

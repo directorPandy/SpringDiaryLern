@@ -7,11 +7,13 @@ import ru.director.SpringDiaryLern.model.Grade;
 import ru.director.SpringDiaryLern.model.Student;
 
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class GradeMappingUtil {
 
     List<Student> students = new ArrayList<>();

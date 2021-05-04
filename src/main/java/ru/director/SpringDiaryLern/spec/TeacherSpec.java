@@ -11,9 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 
 @Data
 @Component
@@ -23,17 +21,6 @@ public class TeacherSpec implements Specification<Teacher> {
     public Object value;
     public String operation;
 
-    @Override
-    public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery,
-                                 CriteriaBuilder criteriaBuilder) {
-        List<Predicate> predicates = new ArrayList<>();
-
-            if (this.getOperation().equals(":")) {
-                predicates.add(criteriaBuilder.equal(
-                        root.get(this.getKey()), this.getValue()));
-            }
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        }
 
     public Specification<Teacher> tolyanLoh(final String name) {
         return (root, query, builder)
@@ -46,6 +33,15 @@ public class TeacherSpec implements Specification<Teacher> {
 
     }
 
+    public Specification<Teacher> vseLohi(){
+        return (root, query, builder)
+                -> builder.or(builder.in(root.get("name")).value("?"));
 
+    }
+
+    @Override
+    public Predicate toPredicate(Root<Teacher> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        return null;
+    }
 }
 

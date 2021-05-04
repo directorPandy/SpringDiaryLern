@@ -10,12 +10,15 @@ import ru.director.SpringDiaryLern.model.Student;
 import ru.director.SpringDiaryLern.repos.StudentRepos;
 import ru.director.SpringDiaryLern.service.StudentService;
 import ru.director.SpringDiaryLern.utils.StudentMappingUtil;
+
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepos studentRepos;
@@ -59,7 +62,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Page<StudentDto> findStudentByName(String name, Pageable pageable) throws SQLException, IOException {
+    public Page<StudentDto> findStudentByName(String name, Pageable pageable) throws SQLException{
         List<StudentDto> listDto = new ArrayList<>();
         Page<Student> studentsList = studentRepos.findStudentByName(name, pageable);
         return getStudentsDto(listDto, studentsList);

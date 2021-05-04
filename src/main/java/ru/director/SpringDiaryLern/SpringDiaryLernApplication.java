@@ -27,10 +27,6 @@ public class SpringDiaryLernApplication {
 	private static GradeService gradeService;
 	private static TeacherService teacherService;
 
-
-
-
-
 	@Autowired
 	public SpringDiaryLernApplication( GradeService gradeService, StudentService studentService, TeacherService teacherService) {
 		SpringDiaryLernApplication.gradeService = gradeService;
@@ -54,6 +50,7 @@ public class SpringDiaryLernApplication {
 		grade.setStudents(students);
 		gradeService.save(grade);
 
+
 		Grade grade1 = new Grade("US");
 		gradeService.save(grade1);
 
@@ -72,7 +69,7 @@ public class SpringDiaryLernApplication {
 		Teacher marySemenna = new Teacher("Anna", grade1);
 		teacherService.save(marySemenna);
 
-		Teacher maryVasillevna = new Teacher("Vika", grade1);
+		Teacher maryVasillevna = new Teacher("Jeka LOH)))", grade1);
 		teacherService.save(maryVasillevna);
 
 		Credential credential = new Credential();
